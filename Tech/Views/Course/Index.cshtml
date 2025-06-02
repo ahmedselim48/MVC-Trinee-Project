@@ -1,0 +1,33 @@
+﻿@model List<Course>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MYAddLayout.cshtml";
+}
+
+<h1>Courses List</h1>
+
+<a asp-action="Add" asp-controller="Course" class="btn btn-primary mb-3">Add New Course</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Degree</th>
+            <th>Min Degree</th>
+            <th>Hours</th>
+            <th>Department ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.Name</td>
+                <td>@course.Degree</td>
+                <td>@course.MinDegree</td>
+                <td>@course.Hours</td>
+                <td>@course.DeptId</td>
+            </tr>
+        }
+    </tbody>
+</table>

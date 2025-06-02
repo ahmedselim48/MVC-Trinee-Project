@@ -1,0 +1,44 @@
+﻿@model InstructorViewModel
+
+@{
+    ViewData["Title"] = "Add Instructor";
+}
+
+<h1>Add Instructor</h1>
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<form asp-controller="Instructor" asp-action="SaveAdd" method="post">
+
+    <label asp-for="Name"></label>
+    <input type = "text" asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+
+    <label asp-for="DeptId"></label>
+    <select asp-for="DeptId" asp-items="Model.Departments" class="form-select"></select>
+    <span asp-validation-for="DeptId" class="text-danger"></span>
+
+    <label asp-for="CrsId"></label>
+    <select asp-for="CrsId" asp-items="Model.Courses" class="form-select"></select>
+    <span asp-validation-for="CrsId" class="text-danger"></span>
+
+    <label asp-for="Salary"></label>
+    <input asp-for="Salary" class="form-control" />
+    <span asp-validation-for="Salary" class="text-danger"></span>
+
+    <label asp-for="Address"></label>
+    <input asp-for="Address" class="form-control" />
+    <span asp-validation-for="Address" class="text-danger"></span>
+
+    <label asp-for="ImageUrl"></label>
+    <input asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+
+    <button type="submit">Save</button>
+   
+
+</form>
+<br />
+
+<a asp-controller="Instructor" asp-action="Index" class="btn btn-secondary">Back To Instructors</a>
+
