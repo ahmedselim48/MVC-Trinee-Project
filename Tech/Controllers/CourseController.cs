@@ -6,6 +6,9 @@ namespace Tech.Controllers
 {
     public class CourseController : Controller
     {
+     
+
+        
         TechContext Context = new TechContext();
         public IActionResult Index()
         {
@@ -16,15 +19,12 @@ namespace Tech.Controllers
         public IActionResult Add()
         {
             ViewBag.DepartmentList = new SelectList(Context.Departments.ToList(), "Id", "Name");
-
-
-
-            return View("Add");
+             return View("Add");
         }
         [HttpPost]
         public IActionResult SaveAdd(Course courseFromReq)
         {
-            if (courseFromReq.Name != null)
+            if(ModelState.IsValid)
             {
                 Context.Courses.Add(courseFromReq);
                 Context.SaveChanges();
@@ -32,7 +32,23 @@ namespace Tech.Controllers
             }
             ViewBag.DepartmentList = new SelectList(Context.Departments.ToList(), "Id", "Name");
 
-            return View("Add" , courseFromReq);
+            return View("Add", courseFromReq);
         }
+
+        [HttpGet]
+        public IActionResult CheckMinDegree(int minDegree, int degree)
+        {
+            if (minDegree < degree)
+            {
+                return Json(true); // valid
+            }
+            return Json("MinDegree must be less than Degree"); // invalid
+        }
+
+
+
+
+
+
     }
 }

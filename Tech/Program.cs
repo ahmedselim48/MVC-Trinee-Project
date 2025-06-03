@@ -1,9 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using Tech.Models;
+
 namespace Tech
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -27,6 +31,9 @@ namespace Tech
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+            
+
+
         }
     }
 }
