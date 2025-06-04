@@ -56,7 +56,7 @@ namespace Tech.Controllers
         }
 
 
-        // GET: /Movies/Delete/5
+        // GET: /Course/Delete/5
         [HttpGet]
         public ActionResult Delete(int? id)
         {

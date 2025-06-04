@@ -9,6 +9,12 @@ namespace Tech
         {
 
             var builder = WebApplication.CreateBuilder(args);
+            // To session
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddSession(option => {
+                option.IdleTimeout = TimeSpan.FromMinutes(20);
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -23,6 +29,8 @@ namespace Tech
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
