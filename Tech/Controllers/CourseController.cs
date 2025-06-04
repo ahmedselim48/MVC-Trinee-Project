@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 using Tech.Models;
 
 namespace Tech.Controllers
@@ -10,9 +12,17 @@ namespace Tech.Controllers
 
         
         TechContext Context = new TechContext();
-        public IActionResult Index()
+        public IActionResult Index(string? searchName)
         {
-            List<Course> coursesList = Context.Courses.ToList();
+            var allCourse = Context.Courses.Include(c => c.Department).AsQueryable();
+           if(!string.IsNullOrEmpty(searchName))
+            {
+                allCourse= allCourse.Where(c => c.Name.ToLower().Contains(searchName.ToLower()));
+            }
+
+           // List<Course> coursesList = Context.Courses.ToList();
+            List<Course> coursesList = allCourse.ToList();
+            ViewBag.SearchName = searchName;
             return View("Index", coursesList);
         }
         [HttpGet]
@@ -46,7 +56,38 @@ namespace Tech.Controllers
         }
 
 
+        // GET: /Movies/Delete/5
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            var course = Context.Courses.FirstOrDefault(c => c.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
 
+        // POST: Course/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var course = Context.Courses.FirstOrDefault(c => c.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            var relatedResults = Context.crsResults.Where(r => r.CrsId == id).ToList();
+            Context.crsResults.RemoveRange(relatedResults);
+
+            var relatedInstructors = Context.Instructors.Where(i => i.CrsId == id).ToList();
+            Context.Instructors.RemoveRange(relatedInstructors);
+
+            Context.Courses.Remove(course);
+            Context.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
 
 
