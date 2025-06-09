@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Tech.Models;
+using Tech.Repository;
 
 namespace Tech
 {
@@ -9,6 +10,16 @@ namespace Tech
         {
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IInstructorRepository, InstructorRepository>();
+            builder.Services.AddScoped<IResultRepository, ResultRepository>();
+            
+            builder.Services.AddDbContext<TechContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("Tech"));
+            });
+
             // To session
             builder.Services.AddControllersWithViews();
 

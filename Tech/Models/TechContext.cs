@@ -15,6 +15,10 @@ namespace Tech.Models
         {
 
         }
+        public TechContext(DbContextOptions<TechContext> options) : base(options) 
+        { 
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=DESKTOP-BLI6H89\\SQLDEV;Initial Catalog=LabMVC;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
